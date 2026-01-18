@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Pod Express</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #128C7E 0%, #25d366 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            text-align: center;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .btn-retry {
+            background: white;
+            color: #128C7E;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-retry:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .status.online {
+            color: #4CAF50;
+        }
+        
+        .status.offline {
+            color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="icon">📡</div>
+        <h1>Tidak Ada Koneksi</h1>
+        <p>Maaf, Anda sedang offline. Beberapa fitur mungkin tidak tersedia. Pastikan koneksi internet Anda aktif dan coba lagi.</p>
+        <button class="btn-retry" onclick="retryConnection()">🔄 Coba Lagi</button>
+        <div class="status" id="connectionStatus">Memeriksa koneksi...</div>
+    </div>
+
+    <script>
+        // Auto-detect online status
+        function updateStatus() {
+            const statusEl = document.getElementById('connectionStatus');
+            if (navigator.onLine) {
+                statusEl.textContent = '✅ Online - Memuat ulang...';
+                statusEl.className = 'status online';
+                setTimeout(() => {
+                    window.location.href = '/MAGER-NGEDIT/';
+                }, 1000);
+            } else {
+                statusEl.textContent = '❌ Offline - Tidak ada koneksi';
+                statusEl.className = 'status offline';
+            }
+        }
+
+        function retryConnection() {
+            updateStatus();
+            if (navigator.onLine) {
+                window.location.href = '/MAGER-NGEDIT/';
+            }
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', updateStatus);
+        window.addEventListener('offline', updateStatus);
+
+        // Check status on load
+        updateStatus();
+
+        // Auto-retry setiap 5 detik
+        setInterval(() => {
+            if (navigator.onLine) {
+                window.location.href = '/MAGER-NGEDIT/';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
