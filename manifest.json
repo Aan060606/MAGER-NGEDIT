@@ -1,0 +1,36 @@
+{
+  "name": "Pod Express - WA Generator",
+  "short_name": "Pod Express",
+  "description": "Generate realistic WhatsApp chat mockups for package delivery cancellation",
+  "start_url": "/MAGER-NGEDIT/",
+  "scope": "/MAGER-NGEDIT/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#128C7E",
+  "lang": "id-ID",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "business"],
+  "icons": [
+    {
+      "src": "./MAGER-NGEDIT/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./MAGER-NGEDIT/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./MAGER-NGEDIT/screenshot.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}
