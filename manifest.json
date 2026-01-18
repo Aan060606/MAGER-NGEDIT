@@ -1,28 +1,41 @@
 {
-  "name": "Pod Express - WA Generator",
-  "short_name": "Pod Express",
-  "description": "Generate realistic WhatsApp chat mockups for package delivery cancellation and returns",
-  "start_url": "/MAGER-NGEDIT/",
-  "scope": "/MAGER-NGEDIT/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#FFFFFF",
-  "theme_color": "#128C7E",
-  "lang": "id-ID",
+  "background_color": "#ffffff",
   "dir": "ltr",
-  "categories": ["productivity", "utilities"],
+  "display": "standalone",
+  "name": "Pod Express",
+  "orientation": "portrait",
+  "scope": "/MAGER-NGEDIT/",
+  "short_name": "Pod Express",
+  "start_url": "/MAGER-NGEDIT/",
+  "theme_color": "#128C7E",
   "icons": [
     {
-      "src": "/MAGER-NGEDIT/icon-192x192.png",
-      "sizes": "192x192",
+      "src": "https://aan060606.github.io/MAGER-NGEDIT/icon-192x192.png",
       "type": "image/png",
-      "purpose": "any maskable"
+      "sizes": "192x192",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 192,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": true
     },
     {
-      "src": "/MAGER-NGEDIT/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "https://aan060606.github.io/MAGER-NGEDIT/icon-512x512.png",
       "type": "image/png",
-      "purpose": "any maskable"
+      "sizes": "512x512",
+      "isSquare": true,
+      "isPng": true,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 512,
+      "is512x512": true,
+      "is256x256": false,
+      "is192x192": false
     }
-  ]
+  ],
+  "description": "Generate realistic WhatsApp chat mockups",
+  "lang": "id"
 }
