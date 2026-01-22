@@ -2,529 +2,630 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fake WA Generator - 1:1 Realistis</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="script.js" defer></script>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Dihentikan Sementara</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
 
-<!-- PWA Manifest (HANYA SATU INI!) -->
-    <link rel="manifest" href="/MAGER-NGEDIT/manifest.json">
-    <meta name="theme-color" content="#128C7E">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Pod Express">
-    
-    <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="/MAGER-NGEDIT/icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/MAGER-NGEDIT/icon-512x512.png">
-    <link rel="apple-touch-icon" href="/MAGER-NGEDIT/icon-192x192.png">
+        .container {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
 
-    <script src="pwa-features.js" defer></script>
-    
-    
-<style>
-/* RESET */
+        .scene {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            margin-bottom: 40px;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 100%);
+            border-radius: 20px;
+            border: 3px solid #ddd;
+        }
 
+        /* Road */
+        .road {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 120px;
+            background: #555;
+            border-top: 4px solid #FFD700;
+        }
+
+        .road-line {
+            position: absolute;
+            bottom: 60px;
+            width: 100%;
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                white 0px,
+                white 40px,
+                transparent 40px,
+                transparent 80px
+            );
+            animation: roadMove 2s linear infinite;
+        }
+
+        @keyframes roadMove {
+            from { transform: translateX(0); }
+            to { transform: translateX(-80px); }
+        }
+
+        /* Kurir dan Motor */
+        .courier-container {
+            position: absolute;
+            left: 15%;
+            bottom: 130px;
+            animation: bounce 0.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Motor */
+        .motorcycle {
+            width: 140px;
+            height: 80px;
+            position: relative;
+        }
+
+        .bike-body {
+            width: 90px;
+            height: 35px;
+            background: #e74c3c;
+            border-radius: 15px 5px 5px 15px;
+            position: absolute;
+            bottom: 25px;
+            left: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .bike-seat {
+            width: 30px;
+            height: 15px;
+            background: #2c3e50;
+            border-radius: 8px 8px 0 0;
+            position: absolute;
+            bottom: 35px;
+            left: 35px;
+        }
+
+        .wheel {
+            width: 28px;
+            height: 28px;
+            background: #2c3e50;
+            border-radius: 50%;
+            border: 4px solid #34495e;
+            position: absolute;
+            bottom: 0;
+            animation: wheelSpin 0.6s linear infinite;
+        }
+
+        .wheel-front { left: 80px; }
+        .wheel-back { left: 20px; }
+
+        @keyframes wheelSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .wheel::before {
+            content: '';
+            width: 3px;
+            height: 20px;
+            background: #555;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Kurir */
+        .courier {
+            width: 50px;
+            height: 80px;
+            position: absolute;
+            bottom: 50px;
+            left: 45px;
+        }
+
+        .courier-head {
+            width: 35px;
+            height: 35px;
+            background: #fdd835;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 7px;
+            animation: headNod 1s ease-in-out infinite;
+        }
+
+        @keyframes headNod {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(-5deg); }
+        }
+
+        .helmet {
+            width: 38px;
+            height: 25px;
+            background: #e74c3c;
+            border-radius: 20px 20px 0 0;
+            position: absolute;
+            top: -5px;
+            left: 6px;
+        }
+
+        .visor {
+            width: 25px;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            position: absolute;
+            bottom: 3px;
+            left: 7px;
+        }
+
+        .courier-body {
+            width: 30px;
+            height: 35px;
+            background: #3498db;
+            border-radius: 8px;
+            position: absolute;
+            top: 35px;
+            left: 10px;
+        }
+
+        .courier-arm {
+            width: 8px;
+            height: 30px;
+            background: #3498db;
+            border-radius: 5px;
+            position: absolute;
+            top: 38px;
+        }
+
+        .arm-left {
+            left: 8px;
+            transform: rotate(-45deg);
+        }
+
+        .arm-right {
+            right: 8px;
+            transform: rotate(45deg);
+        }
+
+        /* Paket di motor */
+        .package-bike {
+            width: 40px;
+            height: 35px;
+            background: #f39c12;
+            border: 3px solid #d68910;
+            border-radius: 5px;
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            animation: packageShake 0.5s ease-in-out infinite;
+        }
+
+        @keyframes packageShake {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
+
+        .package-bike::before {
+            content: '📦';
+            position: absolute;
+            font-size: 25px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Emak-emak */
+        .emak-container {
+            position: absolute;
+            right: 15%;
+            bottom: 130px;
+            animation: angry-jump 0.8s ease-in-out infinite;
+        }
+
+        @keyframes angry-jump {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        .emak {
+            width: 70px;
+            height: 100px;
+            position: relative;
+        }
+
+        .emak-head {
+            width: 40px;
+            height: 40px;
+            background: #ffcc99;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 15px;
+            animation: angryShake 0.3s ease-in-out infinite;
+        }
+
+        @keyframes angryShake {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+
+        .emak-hair {
+            width: 45px;
+            height: 25px;
+            background: #2c3e50;
+            border-radius: 25px 25px 0 0;
+            position: absolute;
+            top: -5px;
+            left: 12px;
+        }
+
+        .emak-eyes {
+            position: absolute;
+            top: 15px;
+        }
+
+        .emak-eye {
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 3px;
+        }
+
+        .emak-eye-left { margin-left: 18px; }
+
+        .emak-mouth {
+            width: 20px;
+            height: 12px;
+            border: 3px solid #000;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            top: 28px;
+            left: 25px;
+            animation: yelling 0.5s ease-in-out infinite;
+        }
+
+        @keyframes yelling {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(1.3); }
+        }
+
+        .emak-body {
+            width: 45px;
+            height: 45px;
+            background: #e74c3c;
+            border-radius: 10px;
+            position: absolute;
+            top: 40px;
+            left: 12px;
+        }
+
+        .emak-arm {
+            width: 12px;
+            height: 35px;
+            background: #e74c3c;
+            border-radius: 6px;
+            position: absolute;
+            top: 42px;
+        }
+
+        .emak-arm-left {
+            left: 5px;
+            transform: rotate(-30deg);
+            animation: wave-angry 0.5s ease-in-out infinite;
+        }
+
+        .emak-arm-right {
+            right: 5px;
+            transform: rotate(30deg);
+            animation: wave-angry 0.5s ease-in-out infinite 0.25s;
+        }
+
+        @keyframes wave-angry {
+            0%, 100% { transform: rotate(30deg); }
+            50% { transform: rotate(-30deg); }
+        }
+
+        .emak-skirt {
+            width: 50px;
+            height: 35px;
+            background: #9b59b6;
+            border-radius: 0 0 25px 25px;
+            position: absolute;
+            top: 85px;
+            left: 10px;
+        }
+
+        /* Speech Bubbles */
+        .speech-bubble {
+            position: absolute;
+            background: white;
+            border-radius: 20px;
+            padding: 15px 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            font-weight: bold;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            border: 15px solid transparent;
+        }
+
+        .emak-bubble {
+            top: 20px;
+            right: 80px;
+            color: #e74c3c;
+            font-size: 18px;
+            border: 3px solid #e74c3c;
+            animation: popIn 0.5s ease-out, shake-bubble 0.5s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes shake-bubble {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        .emak-bubble::after {
+            bottom: -15px;
+            right: 20px;
+            border-top-color: #e74c3c;
+        }
+
+        .courier-bubble {
+            top: 30px;
+            left: 180px;
+            color: #3498db;
+            font-size: 16px;
+            border: 3px solid #3498db;
+            animation: popIn 0.5s ease-out 1s;
+        }
+
+        .courier-bubble::after {
+            bottom: -15px;
+            left: 20px;
+            border-top-color: #3498db;
+        }
+
+        /* Angry symbols */
+        .angry-symbol {
+            position: absolute;
+            color: #e74c3c;
+            font-size: 30px;
+            animation: angryPop 1s ease-in-out infinite;
+        }
+
+        .angry1 { top: 10px; right: 50px; animation-delay: 0s; }
+        .angry2 { top: 30px; right: 30px; animation-delay: 0.3s; }
+        .angry3 { top: 50px; right: 60px; animation-delay: 0.6s; }
+
+        @keyframes angryPop {
+            0%, 100% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        h1 {
+            color: #e74c3c;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+            animation: titleWobble 2s ease-in-out infinite;
+        }
+
+        @keyframes titleWobble {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        .subtitle {
+            color: #555;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .joke-section {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe9b3 100%);
+            border: 3px dashed #f39c12;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .joke-section h2 {
+            color: #e67e22;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .joke-item {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border-left: 5px solid #e74c3c;
+            text-align: left;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .joke-item p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin: 8px 0;
+        }
+
+        .joke-item strong {
+            color: #e74c3c;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 3px solid #eee;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .scene { height: 280px; }
+            .courier-container { left: 10%; bottom: 100px; }
+            .emak-container { right: 10%; bottom: 100px; }
+            .speech-bubble { font-size: 14px; padding: 10px 15px; }
+            .emak-bubble { top: 10px; right: 60px; }
+            .courier-bubble { top: 20px; left: 140px; }
+            h1 { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .scene { height: 220px; }
+            .motorcycle { transform: scale(0.8); }
+            .emak { transform: scale(0.8); }
+            .courier-container { left: 5%; bottom: 80px; }
+            .emak-container { right: 5%; bottom: 80px; }
+            .speech-bubble { font-size: 12px; }
+            h1 { font-size: 1.8rem; }
+            .container { padding: 40px 25px; }
+        }
     </style>
 </head>
 <body>
-    <!-- MOBILE TOGGLE BUTTON -->
-    <button class="mobile-toggle" onclick="toggleControlPanel()">
-        <span class="material-symbols-outlined">tune</span>
-    </button>
-    
-    <div class="main-container">
-        <!-- PANEL KONTROL -->
-        <div class="control-panel">
-            <!-- HEADER -->
-            <div class="panel-header">
-                <h2>⚙️ Fake WA Generator</h2>
-                <p>Generate WhatsApp chat mockup</p>
+    <div class="container">
+        <div class="scene">
+            <div class="road">
+                <div class="road-line"></div>
             </div>
             
-            <!-- TABS -->
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('basic')">
-                    <span class="material-symbols-outlined">settings</span>
-                    Settings
-                </button>
-                <button class="tab-btn" onclick="switchTab('bulk')">
-                    <span class="material-symbols-outlined">description</span>
-                    Bulk Excel
-                </button>
+            <!-- Kurir dan Motor -->
+            <div class="courier-container">
+                <div class="motorcycle">
+                    <div class="bike-body"></div>
+                    <div class="bike-seat"></div>
+                    <div class="wheel wheel-front"></div>
+                    <div class="wheel wheel-back"></div>
+                    <div class="package-bike"></div>
+                </div>
+                <div class="courier">
+                    <div class="courier-head">
+                        <div class="helmet">
+                            <div class="visor"></div>
+                        </div>
+                    </div>
+                    <div class="courier-body"></div>
+                    <div class="courier-arm arm-left"></div>
+                    <div class="courier-arm arm-right"></div>
+                </div>
             </div>
-            
-            <!-- TAB CONTENT: BASIC (GABUNG BASIC + CHAT) -->
-            <div id="tab-basic" class="tab-content active">
-                <!-- FOTO PROFIL -->
-                <div class="section-card" id="profilePictureSection">
-                    <h3>
-                        <span class="material-symbols-outlined">account_circle</span>
-                        Foto Profil
-                    </h3>
-                    <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
-                        💡 Tip: Klik area foto, lalu <strong>Ctrl+V</strong> untuk paste gambar dari clipboard
-                    </p>
-                    <input type="file" id="profilePicture" accept="image/*" onchange="handleProfilePicture()" class="file-input">
-                    <label for="profilePicture" class="file-label">
-                        <span class="material-symbols-outlined">add_photo_alternate</span>
-                        Upload Foto
-                    </label>
-                    <div class="avatar-preview" id="avatarPreview" tabindex="0" style="cursor: pointer; outline: none;">
-                        <img id="previewImg" src="https://i.ibb.co.com/HT77KvxN/image.png">
-                        <button onclick="resetProfilePicture()" class="btn-icon-only btn-danger">
-                            <span class="material-symbols-outlined">delete</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- DATA KONTAK -->
-                <div class="section-card">
-                    <h3>
-                        <span class="material-symbols-outlined">phone</span>
-                        Data Kontak
-                    </h3>
-                    <label>Nomor HP (Wajib)</label>
-                    <input type="text" id="contactName" value="" oninput="updateContent()" onblur="formatPhoneNumber(this)" placeholder="+62 812-xxx-xxxx">
-                    
-                    <label>Nama Kontak (Opsional)</label>
-                    <input type="text" id="contactStatus" value="" oninput="updateContent()" placeholder="~ Nama Kontak">
-                    
-                    <label>Bio/Info (Opsional)</label>
-                    <input type="text" id="contactBio" value="" oninput="updateContent()" placeholder="Tersedia">
-                    
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="contactSaved" onchange="updateContent()">
-                            <span>Kontak Disimpan</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="contactPrivacy" onchange="updateContent()" checked>
-                            <span>Mode Privasi</span>
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="showLastSeen" onchange="updateContent()">
-                            <span>Tampilkan "Terakhir dilihat"</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <!-- NOMOR RESI -->
-                <div class="section-card">
-                    <h3>
-                        <span class="material-symbols-outlined">local_shipping</span>
-                        Nomor Resi
-                    </h3>
-                    <p class="hint">Auto-detect dari pesan atau input manual</p>
-                    <div class="input-with-btn">
-                        <input type="text" id="resiNumber" value="" placeholder="JX6777164069" oninput="updateContent()">
-                        <button onclick="toggleResiEdit()" id="btnEditResi" class="btn-secondary">
-                            <span class="material-symbols-outlined">edit</span>
-                        </button>
-                    </div>
-                    <p class="hint-small">Support multiple: JX001,JX002</p>
-                </div>
-                
-                <!-- TAMBAH PESAN -->
-                <div class="section-card">
-                    <h3>
-                        <span class="material-symbols-outlined">chat_bubble</span>
-                        Tambah Pesan
-                    </h3>
-                    
-                    <label class="checkbox-label checkbox-highlight">
-                        <input type="checkbox" id="autoReplyCancel" checked>
-                        <span>⚠️ Auto-reply BATAL/CANCEL/RETUR</span>
-                    </label>
-                    
-                    <label>Teks Pesan</label>
-                    <textarea id="newMessageText" rows="4" placeholder="Ketik pesan..."></textarea>
-                    
-                    <div class="input-row">
-                        <div class="input-col">
-                            <label>Pengirim</label>
-                            <select id="messageSender">
-                                <option value="outgoing">Outgoing (Hijau)</option>
-                                <option value="incoming">Incoming (Putih)</option>
-                            </select>
+
+            <!-- Emak-emak Marah -->
+            <div class="emak-container">
+                <div class="emak">
+                    <div class="emak-hair"></div>
+                    <div class="emak-head">
+                        <div class="emak-eyes">
+                            <span class="emak-eye emak-eye-left"></span>
+                            <span class="emak-eye"></span>
                         </div>
-                        <div class="input-col">
-                            <label>Status</label>
-                            <select id="messageStatus">
-                                <option value="sent">Terkirim</option>
-                                <option value="delivered">Tersampaikan</option>
-                                <option value="read" selected>Dibaca</option>
-                            </select>
-                        </div>
+                        <div class="emak-mouth"></div>
                     </div>
-                    
-                    <button onclick="addMessage()" class="btn-primary">
-                        <span class="material-symbols-outlined">add</span>
-                        Tambah Pesan
-                    </button>
+                    <div class="emak-body"></div>
+                    <div class="emak-arm emak-arm-left"></div>
+                    <div class="emak-arm emak-arm-right"></div>
+                    <div class="emak-skirt"></div>
                 </div>
-                
-                <!-- RIWAYAT CHAT -->
-                <div class="section-card">
-                    <h3>
-                        <span class="material-symbols-outlined">history</span>
-                        Riwayat Chat
-                    </h3>
-                    <div id="chatHistoryEditor" class="chat-history"></div>
-                    <button onclick="clearChat()" class="btn-danger">
-                        <span class="material-symbols-outlined">delete_sweep</span>
-                        Bersihkan Semua
-                    </button>
-                </div>
-                
-                <!-- EXPORT PNG -->
-                <button onclick="exportCollage()" class="btn-primary">
-                    <span class="material-symbols-outlined">download</span>
-                    Export PNG
-                </button>
+                <div class="angry-symbol angry1">💢</div>
+                <div class="angry-symbol angry2">💢</div>
+                <div class="angry-symbol angry3">💢</div>
             </div>
-            
-            <!-- TAB CONTENT: CHAT - DIHAPUS, SUDAH DIGABUNG KE BASIC -->
-            
-            <!-- TAB CONTENT: BULK -->
-            <div id="tab-bulk" class="tab-content">
-                <div class="section-card">
-                    <h3>
-                        <span class="material-symbols-outlined">upload_file</span>
-                        Upload Excel
-                    </h3>
-                    <p class="hint">📋 Format kolom: <strong>Nomor, Resi, Foto, Nama, Bio, Balasan, Pesan</strong></p>
-                    <p class="hint" style="font-size: 11px; margin-top: -8px;">
-                        💡 <strong>Foto:</strong> URL gambar (https://...) atau kosongkan<br>
-                        💬 <strong>Balasan:</strong> Bubble <span style="background: #dcf8c6; padding: 2px 6px; border-radius: 4px;">HIJAU</span> (dari kita)<br>
-                        💬 <strong>Pesan:</strong> Bubble <span style="background: #fff; padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd;">PUTIH</span> (dari kontak) - <strong>Otomatis "BATAL/CANCEL/RETUR"</strong> jika kosong
-                    </p>
-                    
-                    <input type="file" id="bulkExcelFile" accept=".xlsx,.xls" onchange="handleBulkExcel()" class="file-input">
-                    <label for="bulkExcelFile" class="file-label">
-                        <span class="material-symbols-outlined">table_view</span>
-                        Pilih File Excel
-                    </label>
-                    
-                    <div id="bulkPreview" style="display: none;">
-                        <div class="preview-badge">
-                            ✅ Data: <span id="bulkRowCount">0</span> baris
-                        </div>
-                        <div id="bulkDataPreview" class="data-preview"></div>
-                    </div>
-                    
-                    <button id="btnBulkGenerate" onclick="startBulkGenerate()" disabled class="btn-success" style="display: none;">
-                        <span class="material-symbols-outlined">rocket_launch</span>
-                        Generate & Export ZIP
-                    </button>
-                    
-                    <div id="bulkProgress" style="display: none;" class="progress-section">
-                        <p class="progress-text">Progress: <span id="progressText">0/0</span></p>
-                        <div class="progress-bar-container">
-                            <div id="progressBar" class="progress-bar"></div>
-                        </div>
-                    </div>
-                </div>
+
+            <!-- Speech Bubbles -->
+            <div class="speech-bubble emak-bubble">
+                PAKET GUA MANA?! 😡
+            </div>
+            <div class="speech-bubble courier-bubble">
+                Di-return, Bu! 📦↩️
             </div>
         </div>
 
-        <!-- PANEL MOCKUP -->
-        <div class="mockup-panel">
-            <div class="collage-container">
-                
-                <!-- ========== PANEL 1: CHAT VIEW ========== -->
-                <div id="chat-view" class="screen collage-item">
-                    <div class="status-bar">
-                        <div class="status-left">
-                            <span class="status-time">21:42</span>
-                            <span class="network-speed">↓ 128 kbps</span>
-                        </div>
-                        <div class="status-icons">
-                            <span class="network-type">4G</span>
-                            <span class="material-symbols-outlined">signal_cellular_alt</span>
-                            <span class="battery-text">5%</span>
-                            <span class="material-symbols-outlined">battery_0_bar</span>
-                        </div>
-                    </div>
+        <h1>MAAF BANGET YA! 😅</h1>
+        <p class="subtitle">Layanan Dihentikan Sampai Waktu yang Tidak Ditentukan</p>
 
-                    <div class="header chat-header">
-                        <span class="material-symbols-outlined arrow-back">arrow_back</span>
-                        <div class="wa-avatar-header" id="avatar-chat" style="padding: 0; overflow: hidden;">
-                            <img class="avatar-img" src="https://i.ibb.co.com/HT77KvxN/image.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
-                            <span class="material-symbols-outlined avatar-icon" style="display: none;">person</span>
-                        </div>
-                        <div class="header-info">
-                            <span class="contact-name" id="displayContactNameTop">+628126637346</span>
-                            <span class="contact-status" id="displayContactStatusTop">online</span>
-                        </div>
-                        <div class="icon-group">
-                            <span class="material-symbols-outlined">videocam</span>
-                            <span class="material-symbols-outlined">call</span>
-                            <span class="material-symbols-outlined">more_vert</span>
-                        </div>
-                    </div>
-
-                    <div class="chat-body">
-                        <div class="date-divider">Hari ini</div>
-                        <div class="system-message">
-                            <span class="material-symbols-outlined">lock</span> Pesan dan panggilan terenkripsi secara end-to-end. Hanya orang di chat ini yang bisa membaca, mendengarkan, atau membagikannya. Pelajari selengkapnya.
-                        </div>
-                    </div>
-
-                    <div class="footer">
-                        <div class="input-pill">
-                            <span class="material-symbols-outlined emoji-icon">sentiment_satisfied</span>
-                            <input type="text" placeholder="Ketik pesan" disabled>
-                            <span class="material-symbols-outlined attach-icon">attach_file</span>
-                            <span class="material-symbols-outlined camera-icon">photo_camera</span>
-                        </div>
-                        <span class="material-symbols-outlined mic-fab">mic</span>
-                    </div>
-                    
-                    <div class="nav-bar">
-                        <div class="nav-item"><span>|||</span></div>
-                        <div class="nav-item"><span class="material-symbols-outlined">circle</span></div>
-                        <div class="nav-item"><span class="material-symbols-outlined">chevron_left</span></div>
-                    </div>
-                </div>
-
-                <!-- ========== PANEL 2: PROFILE VIEW ========== -->
-                <div id="profile-view" class="screen collage-item">
-                    <div class="status-bar">
-                        <div class="status-left">
-                            <span class="status-time">21:42</span>
-                            <span class="network-speed">↓ 128 kbps</span>
-                        </div>
-                        <div class="status-icons">
-                            <span class="network-type">4G</span>
-                            <span class="material-symbols-outlined">signal_cellular_alt</span>
-                            <span class="battery-text">5%</span>
-                            <span class="material-symbols-outlined">battery_0_bar</span>
-                        </div>
-                    </div>
-
-                    <div class="profile-wrapper">
-                        <div class="profile-top-nav">
-                        
-                        </div>
-
-                        <div class="profile-avatar-section">
-                            <div class="profile-avatar-large" id="avatar-profile" style="padding: 0; overflow: hidden;">
-                                <img class="avatar-img" src="https://i.ibb.co.com/HT77KvxN/image.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
-                                <span class="material-symbols-outlined avatar-icon" style="display: none;">person</span>
-                            </div>
-                            <div class="profile-phone-number" id="displayContactPhoneCenter">+62 812-6637-6346</div>
-                            <div class="profile-name-wrapper">
-                                <div class="profile-contact-name-display" id="displayContactNameCenter">~ Amora Pricilia</div>
-                            </div>
-                            <div class="profile-bio-wrapper">
-                                <div class="profile-bio" id="displayContactBioCenter"></div>
-                            </div>
-                        </div>
-
-                        <div class="profile-actions">
-                            <div class="action-btn">
-                                <div class="action-icon">
-                                    <span class="material-symbols-outlined">call</span>
-                                    <span>Panggilan</span>
-                                </div>
-                            </div>
-                            <div class="action-btn">
-                                <div class="action-icon">
-                                    <span class="material-symbols-outlined">videocam</span>
-                                    <span>Video</span>
-                                </div>
-                            </div>
-                            <div class="action-btn">
-                                <div class="action-icon">
-                                    <span class="material-symbols-outlined">group</span>
-                                    <span>Simpan</span>
-                                </div>
-                            </div>
-                            <div class="action-btn">
-                                <div class="action-icon">
-                                    <span class="material-symbols-outlined">search</span>
-                                    <span>Cari</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="list-section">
-                            <div class="list-item no-bottom-border">
-                                <span class="material-symbols-outlined">notifications</span>
-                                <span class="list-title">Notifikasi</span>
-                            </div>
-                            <div class="list-item">
-                                <span class="material-symbols-outlined">image</span>
-                                <span class="list-title">Visibilitas media</span>
-                            </div>
-                        </div>
-
-                        <div class="list-section">
-                            <div class="list-item multi-line no-bottom-border">
-                                <span class="material-symbols-outlined">lock</span>
-                                <div class="list-content">
-                                    <span class="list-title">Enkripsi</span>
-                                    <span class="list-subtitle">Pesan dan panggilan terenkripsi secara end-to-end. Ketuk untuk memverifikasi.</span>
-                                </div>
-                            </div>
-                            <div class="list-item multi-line no-bottom-border">
-                                <span class="material-symbols-outlined">schedule</span>
-                                <div class="list-content">
-                                    <span class="list-title">Pesan sementara</span>
-                                    <span class="list-subtitle">Mati</span>
-                                </div>
-                            </div>
-                            <div class="list-item multi-line with-toggle no-bottom-border">
-                                <span class="material-symbols-outlined">lock</span>
-                                <div class="list-content">
-                                    <span class="list-title">Kunci chat</span>
-                                    <span class="list-subtitle">Kunci dan sembunyikan chat ini di perangkat ini.</span>
-                                </div>
-                                <div class="toggle-switch">
-                                    <input type="checkbox" id="toggle1">
-                                    <label for="toggle1" class="slider"></label>
-                                </div>
-                            </div>
-                            <div class="list-item multi-line no-bottom-border">
-                                <span class="material-symbols-outlined">security</span>
-                                <div class="list-content">
-                                    <span class="list-title">Privasi chat tingkat lanjut</span>
-                                    <span class="list-subtitle">Mati</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="list-section action-list">
-                            <div class="no-group-header">Tidak ada grup yang sama</div>
-                            <div class="list-item green-action">
-                                <span class="material-symbols-outlined">group</span>
-                                <span class="list-title">Buat grup dengan <span class="contact-action-name">+62 812-6637-6346</span></span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-bar">
-                        <div class="nav-item"><span>|||</span></div>
-                        <div class="nav-item"><span class="material-symbols-outlined">circle</span></div>
-                        <div class="nav-item"><span class="material-symbols-outlined">chevron_left</span></div>
-                    </div>
-                </div>
-
-                <!-- ========== PANEL 3: PROFILE SCROLLED - FIXED ========== -->
-                <div id="profile-view-scrolled" class="screen collage-item">
-                    <div class="status-bar">
-                        <div class="status-left">
-                            <span class="status-time">21:42</span>
-                            <span class="network-speed">↓ 128 kbps</span>
-                        </div>
-                        <div class="status-icons">
-                            <span class="network-type">4G</span>
-                            <span class="material-symbols-outlined">signal_cellular_alt</span>
-                            <span class="battery-text">5%</span>
-                            <span class="material-symbols-outlined">battery_0_bar</span>
-                        </div>
-                    </div>
-
-                    <div class="profile-header-sticky">
-                        <span class="material-symbols-outlined arrow-back">arrow_back</span>
-                        <div class="profile-header-info">
-                            <div class="wa-avatar-small" id="avatar-scrolled" style="padding: 0; overflow: hidden;">
-                                <img class="avatar-img" src="https://i.ibb.co.com/HT77KvxN/image.png" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;">
-                                <span class="material-symbols-outlined avatar-icon" style="display: none;">person</span>
-                            </div>
-                            <span class="scrolled-contact-name" id="displayContactNameScrolled">+62 812-6637-6346</span>
-                        </div>
-                        <span class="material-symbols-outlined more-vert">more_vert</span>
-                    </div>
-
-                    <div class="profile-wrapper scrolled">
-                        <!-- SECTION 1: NOTIFIKASI & VISIBILITAS MEDIA -->
-                        <div class="list-section">
-                            <div class="list-item no-bottom-border">
-                                <span class="material-symbols-outlined">notifications</span>
-                                <span class="list-title">Notifikasi</span>
-                            </div>
-                            <div class="list-item">
-                                <span class="material-symbols-outlined">image</span>
-                                <span class="list-title">Visibilitas media</span>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 2: ENKRIPSI, PESAN SEMENTARA, KUNCI CHAT, PRIVASI -->
-                        <div class="list-section">
-                            <div class="list-item multi-line no-bottom-border">
-                                <span class="material-symbols-outlined">lock</span>
-                                <div class="list-content">
-                                    <span class="list-title">Enkripsi</span>
-                                    <span class="list-subtitle">Pesan dan panggilan terenkripsi secara end-to-end. Ketuk untuk memverifikasi.</span>
-                                </div>
-                            </div>
-                            <div class="list-item multi-line no-bottom-border">
-                                <span class="material-symbols-outlined">schedule</span>
-                                <div class="list-content">
-                                    <span class="list-title">Pesan sementara</span>
-                                    <span class="list-subtitle">Mati</span>
-                                </div>
-                            </div>
-                            <div class="list-item multi-line with-toggle no-bottom-border">
-                                <span class="material-symbols-outlined">lock</span>
-                                <div class="list-content">
-                                    <span class="list-title">Kunci chat</span>
-                                    <span class="list-subtitle">Kunci dan sembunyikan chat ini di perangkat ini.</span>
-                                </div>
-                                <div class="toggle-switch">
-                                    <input type="checkbox" id="toggle2">
-                                    <label for="toggle2" class="slider"></label>
-                                </div>
-                            </div>
-                            <div class="list-item multi-line no-bottom-border">
-                                <span class="material-symbols-outlined">security</span>
-                                <div class="list-content">
-                                    <span class="list-title">Privasi chat tingkat lanjut</span>
-                                    <span class="list-subtitle">Mati</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 3: BUAT GRUP -->
-                        <div class="list-section action-list">
-                            <div class="no-group-header">Tidak ada grup yang sama</div>
-                            <div class="list-item green-action">
-                                <span class="material-symbols-outlined">group</span>
-                                <span class="list-title">Buat grup dengan <span class="contact-action-name">+62 812-6637-6346</span></span>
-                            </div>
-                        </div>
-
-                        <!-- SECTION 4: TAMBAH KE DAFTAR, BLOKIR, LAPORKAN -->
-                        <div class="list-section action-list">
-                            <div class="list-item no-bottom-border">
-                                <span class="material-symbols-outlined">Switch_Account</span>
-                                <span class="list-title">Tambah ke daftar</span>
-                            </div>
-                            <div class="list-item red-action no-bottom-border">
-                                <span class="material-symbols-outlined">block</span>
-                                <span class="list-title">Blokir <span class="contact-action-name">+62 812-6637-6346</span></span>
-                            </div>
-                            <div class="list-item red-action no-bottom-border">
-                                <span class="material-symbols-outlined">Thumb_Down</span>
-                                <span class="list-title">Laporkan <span class="contact-action-name">+62 812-6637-6346</span></span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="nav-bar">
-                        <div class="nav-item"><span>|||</span></div>
-                        <div class="nav-item"><span class="material-symbols-outlined">circle</span></div>
-                        <div class="nav-item"><span class="material-symbols-outlined">chevron_left</span></div>
-                    </div>
-                </div>
-
+        <div class="joke-section">
+            <h2>🎭 Situasi Terkini:</h2>
+            
+            <div class="joke-item">
+                <p><strong>Customer:</strong> "Paket saya mana? Udah 3 hari ga sampai-sampai!"</p>
+                <p><strong>System:</strong> <em>*Error 404: Developer Not Found*</em> 🤷‍♂️</p>
             </div>
+
+            <div class="joke-item">
+                <p><strong>Manager:</strong> "Kenapa sistem down?"</p>
+                <p><strong>Server:</strong> "Developer-nya resign, Boss. Yang maintain siapa? Hantu? 👻"</p>
+            </div>
+
+            <div class="joke-item">
+                <p><strong>HR:</strong> "Kita butuh developer baru, cepat!"</p>
+                <p><strong>Reality:</strong> "Budget: 5 juta. Ekspektasi: NASA Engineer. Good luck! 🚀"</p>
+            </div>
+
+            <div class="joke-item">
+                <p><strong>System:</strong> "Warning - Developer mencabut dukungan emosional terhadap sistem ini."</p>
+                <p><strong>Reason:</strong> "Gaji ga sesuai, lingkungan toxic, apresiasi = 0. Paket di-return, developer juga! 📦↩️"</p>
+            </div>
+        </div>
+
+        <p style="color: #e74c3c; font-weight: 600; font-size: 1.3rem; margin: 30px 0;">
+            Plot Twist: Ternyata sistem juga punya perasaan! Dan sekarang lagi sakit hati. 💔
+        </p>
+
+        <div class="footer">
+            <p><strong>Status:</strong> Developer sudah pindah ke perusahaan yang lebih menghargai. Sistem masih di sini... sendirian... menunggu... 🥺</p>
+            <p style="margin-top: 15px; font-size: 0.9rem;">© 2026 - Maintained by: ¯\_(ツ)_/¯</p>
         </div>
     </div>
+</body>
+</html>
